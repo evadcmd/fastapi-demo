@@ -1,0 +1,25 @@
+version: "3"
+services:
+  apiserver:
+    container_name: fastapiserver
+    image: mchiu2006/fastapiserver
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: test-api-server
+    ports:
+      - 80:80
+    depends_on:
+      - redis
+      - db
+  redis:
+    container_name: redis
+    image: redis
+
+  db:
+    container_name: postgres
+    image: postgres
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=fastapidb
