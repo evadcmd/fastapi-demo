@@ -5,4 +5,5 @@ Entity = declarative_base()
 
 class Camera(Entity):
     __tablename__ = 'camera'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(10))
