@@ -1,14 +1,14 @@
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI
+import redis
+from .ws import info
 
 app = FastAPI()
+app.include_router(info.router)
+
+r = redis.StrictRedis(host='redis', port=6379, db=0)
+r.set('foo', 'bar')
 
 @app.get('/test')
 async def index():
-    return {'msg': 'Hello World!'}
+    return {'msg': r.get('foo')}
 
-@app.websocket('/ws')
-async def ws_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    while True:
-        data = await websocket.receive_text()
-        await websocket.send_text('TATA')
